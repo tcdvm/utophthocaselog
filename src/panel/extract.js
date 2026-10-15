@@ -13,7 +13,7 @@
 //      function that we then filter; it cannot return anything else.
 //
 // Deliberately NOT read: the record tab label. It looks like the obvious place
-// to find a patient name — it reads  1204311 - "Fluffy" KUPRITZ (09-09-2026) —
+// to find a patient name — it reads  1204311 - "Fluffy" OWNERSURNAME (09-09-2026) —
 // but that trailing surname belongs to the client, not the animal.
 // ---------------------------------------------------------------------------
 
