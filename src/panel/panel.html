@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Ophtho Case Log</title>
+  <link rel="stylesheet" href="panel.css" />
+</head>
+<body>
+
+  <!-- ============ VIEW 1: DASHBOARD ============ -->
+  <section id="view-dashboard" class="view">
+    <!-- No visible title: Chrome's side panel already shows the extension name
+         in its own header bar, directly above this. Kept for screen readers,
+         which have no access to that bar. -->
+    <h1 class="visually-hidden">Ophtho Case Log</h1>
+    <div class="profile">
+      <div class="profile-row">
+        <input id="student-name" class="student-name" type="text" placeholder="Student name" autocomplete="off" />
+        <select id="p-school" aria-label="School"><option value="">School</option></select>
+      </div>
+      <div class="profile-row">
+        <span class="profile-label">Graduating</span>
+        <select id="p-term" aria-label="Graduating term"><option value="">Term</option></select>
+        <select id="p-year" aria-label="Graduating year"><option value="">Year</option></select>
+      </div>
+    </div>
+
+    <svg id="radar" role="img" aria-label="Cases by area of interest"></svg>
+
+    <div class="stats">
+      <div class="stat"><div class="stat-num" id="stat-new">0</div><div class="stat-label">New</div></div>
+      <div class="stat"><div class="stat-num" id="stat-recheck">0</div><div class="stat-label">Recheck</div></div>
+      <div class="stat"><div class="stat-num" id="stat-proc">0</div><div class="stat-label">Procedures</div></div>
+    </div>
+
+    <button id="btn-import" class="btn-primary">Import / Add case</button>
+
+    <div class="section-head"><span>Case log</span><span id="case-count"></span></div>
+    <div id="case-list"></div>
+
+    <div class="section-head"><span>Achievements</span><span id="badge-count"></span></div>
+    <div id="badges" class="badges"></div>
+
+    <div class="footer-tools">
+      <button id="btn-export" class="btn-export">Export PDF report</button>
+      <button id="btn-clear" class="btn-quiet btn-danger">Clear all</button>
+    </div>
+  </section>
+
+  <!-- ============ VIEW 2: ADD / EDIT CASE ============ -->
+  <section id="view-form" class="view hidden">
+    <button id="btn-back" class="back-link">&larr; Back to log</button>
+    <h1 class="panel-title" id="form-title">Add case</h1>
+
+    <div id="autofill-note" class="autofill-note hidden">
+      Read from the ezyVet page — please check it before saving.
+    </div>
+
+    <div id="diag-note" class="autofill-note hidden" style="background:transparent;border:1px dashed var(--line);color:var(--text-dim)">
+      Couldn't read the signalment from the page — type it in below.
+    </div>
+
+    <div class="form-field">
+      <label for="f-date">Date seen</label>
+      <input id="f-date" type="date" />
+    </div>
+
+    <div class="form-field">
+      <label for="f-name">Patient name</label>
+      <input id="f-name" type="text" autocomplete="off" />
+    </div>
+
+    <div class="form-field">
+      <label>Signalment</label>
+      <div class="field-grid">
+        <select id="f-species" aria-label="Species"><option value="">Species</option></select>
+        <input id="f-age" type="text" placeholder="Age" autocomplete="off" />
+      </div>
+      <div class="field-grid" style="margin-top:6px">
+        <input id="f-breed" type="text" placeholder="Breed" autocomplete="off" />
+        <select id="f-sex">
+          <option value="">Sex</option>
+          <option value="F">F (intact)</option>
+          <option value="FS">FS (spayed)</option>
+          <option value="M">M (intact)</option>
+          <option value="MN">MN (neutered)</option>
+          <option value="Unknown">Unknown</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label>Visit type</label>
+      <div class="toggle-row">
+        <button type="button" class="toggle" id="t-new" aria-pressed="false">New</button>
+        <button type="button" class="toggle" id="t-recheck" aria-pressed="false">Recheck</button>
+      </div>
+      <div class="check-line">
+        <input type="checkbox" id="f-procedure" />
+        <label for="f-procedure" style="text-transform:none;letter-spacing:0;font-size:12px;margin:0;color:var(--text)">Procedure / surgery</label>
+      </div>
+      <div id="procedure-levels" class="radio-list hidden"></div>
+    </div>
+
+    <div class="form-field">
+      <label for="f-chief">Chief area or disease of interest</label>
+      <select id="f-chief"><option value="">Select one…</option></select>
+    </div>
+
+    <div class="form-field">
+      <label>Secondary / historical areas</label>
+      <div id="secondary-chips" class="chips"></div>
+    </div>
+
+    <div class="form-field">
+      <label for="f-summary">Brief case summary</label>
+      <textarea id="f-summary" placeholder="What happened? Clinical findings and plan."></textarea>
+      <p style="font-size:10px;color:var(--text-dim);margin:4px 0 0;line-height:1.35">
+        This text is printed in the report you send to your service chief. Keep it
+        clinical — no owner names, phone numbers, or medical record numbers.
+      </p>
+    </div>
+
+    <p id="form-error" class="form-error"></p>
+
+    <div class="btn-row">
+      <button id="btn-save" class="btn-primary">Save case</button>
+    </div>
+    <div class="btn-row">
+      <button id="btn-delete" class="btn-quiet btn-danger hidden">Delete case</button>
+    </div>
+  </section>
+
+  <!-- ============ UNLOCK OVERLAY ============ -->
+  <div id="unlock" class="unlock hidden" role="dialog" aria-modal="true" aria-labelledby="unlock-name">
+    <div class="unlock-card">
+      <div class="unlock-icon" id="unlock-icon" aria-hidden="true"></div>
+      <p class="unlock-kicker">Achievement unlocked</p>
+      <h2 class="unlock-name" id="unlock-name"></h2>
+      <p class="unlock-hint" id="unlock-hint"></p>
+      <p class="unlock-next" id="unlock-next"></p>
+      <button id="unlock-close" class="btn-primary">Continue</button>
+    </div>
+  </div>
+
+  <script type="module" src="panel.js"></script>
+</body>
+</html>

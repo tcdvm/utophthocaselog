@@ -1,0 +1,445 @@
+/* Ophtho Case Log — side panel styles.
+   The panel is narrow (roughly 340-420px), so everything is one column.
+   Colours are defined once as variables and swapped for dark mode below. */
+
+:root {
+  --bg: #ffffff;
+  --bg-soft: #f5f7fa;
+  --line: #e2e7ee;
+  --text: #16202e;
+  --text-dim: #6b7789;
+  --accent: #1f6f8b;
+  --accent-soft: #e3f0f5;
+  --on-accent: #ffffff;
+  --danger: #b3261e;
+  --highlight: #bfe0ec;
+  --gold: #c8901a;
+  --radius: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #171b21;
+    --bg-soft: #1f242c;
+    --line: #2e353f;
+    --text: #e7ecf3;
+    --text-dim: #97a2b2;
+    --accent: #6bb8d1;
+    --accent-soft: #1d333c;
+    --on-accent: #0b1d24;
+    --danger: #e2776d;
+    --highlight: #2d6174;
+    --gold: #e0ae4c;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 13px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+}
+
+.view { padding: 14px 14px 28px; }
+.hidden { display: none !important; }
+
+/* ---- header ---- */
+
+/* Present to assistive technology, absent on screen. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.panel-title {
+  margin: 0 0 2px;
+  font-size: 15px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.student-name {
+  width: 100%;
+  border: none;
+  border-bottom: 1px dashed var(--line);
+  background: transparent;
+  color: var(--text-dim);
+  font: inherit;
+  padding: 3px 0;
+}
+.student-name:focus {
+  outline: none;
+  border-bottom-color: var(--accent);
+  color: var(--text);
+}
+
+/* ---- radar ---- */
+
+#radar { width: 100%; height: auto; display: block; margin: 2px 0 6px; }
+.radar-ring  { fill: none; stroke: var(--line); stroke-width: 1; }
+.radar-spoke { stroke: var(--line); stroke-width: 1; }
+.radar-shape { fill: var(--accent); fill-opacity: 0.18; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; }
+.radar-dot   { fill: var(--accent); }
+.radar-label { fill: var(--text-dim); font-size: 10px; font-family: inherit; }
+.radar-label.is-new { fill: var(--accent); font-weight: 700; }
+.radar-halo { fill: var(--accent); }
+.radar-count { fill: var(--accent); font-weight: 700; }
+
+/* ---- stat tiles ---- */
+
+.stats { display: flex; gap: 6px; margin: 4px 0 12px; }
+.stat {
+  flex: 1;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 8px 6px;
+  text-align: center;
+}
+.stat-num { font-size: 20px; font-weight: 650; line-height: 1.1; }
+.stat-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.04em; }
+
+/* ---- buttons ---- */
+
+button { font: inherit; cursor: pointer; }
+
+.btn-primary {
+  width: 100%;
+  background: var(--accent);
+  color: var(--on-accent);
+  border: none;
+  border-radius: var(--radius);
+  padding: 10px;
+  font-weight: 600;
+}
+.btn-primary:hover { filter: brightness(1.08); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-quiet {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--text);
+  border-radius: var(--radius);
+  padding: 8px 10px;
+}
+.btn-quiet:hover { background: var(--bg-soft); }
+.btn-danger { color: var(--danger); border-color: var(--line); }
+
+.btn-row { display: flex; gap: 6px; margin-top: 12px; }
+.btn-row > * { flex: 1; }
+
+/* ---- section headings ---- */
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 16px 0 6px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-dim);
+}
+
+/* ---- case table ---- */
+
+.case-list { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.case-row {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  padding: 8px 10px;
+  color: var(--text);
+}
+.case-row:last-child { border-bottom: none; }
+.case-row:hover { background: var(--bg-soft); }
+.case-row-top { display: flex; justify-content: space-between; gap: 8px; }
+.case-patient { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.case-date { color: var(--text-dim); font-size: 11px; flex-shrink: 0; }
+.case-row-bottom { display: flex; align-items: center; gap: 6px; margin-top: 3px; font-size: 11px; color: var(--text-dim); }
+
+.tag {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 1px 7px;
+  font-size: 10px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
+.tag-plain { background: var(--bg-soft); color: var(--text-dim); }
+
+.empty-note {
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  padding: 14px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 12px;
+}
+
+/* ---- achievements ---- */
+
+.badges { display: flex; flex-wrap: wrap; gap: 6px; }
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 9px;
+  font-size: 11px;
+  background: var(--bg-soft);
+}
+.badge.locked { opacity: 0.4; }
+.badge .ico { font-size: 13px; }
+.badge.earned { border-color: var(--gold); color: var(--gold); font-weight: 600; }
+
+/* ---- form ---- */
+
+.form-field { margin-bottom: 11px; }
+.form-field > label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin-bottom: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+input[type="text"], input[type="date"], select, textarea {
+  width: 100%;
+  padding: 7px 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+}
+textarea { resize: vertical; min-height: 62px; }
+input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+
+.field-grid { display: flex; gap: 6px; }
+.field-grid > * { flex: 1; min-width: 0; }
+
+.autofill-note {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 8px;
+  padding: 6px 9px;
+  font-size: 11px;
+  margin-bottom: 10px;
+}
+
+.toggle-row { display: flex; gap: 6px; }
+.toggle {
+  flex: 1;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 8px;
+}
+.toggle[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+}
+
+.chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.chip {
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--text-dim);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 11px;
+}
+.chip[aria-pressed="true"] {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.check-line { display: flex; align-items: center; gap: 7px; padding: 8px 0; }
+.check-line input { width: 15px; height: 15px; accent-color: var(--accent); }
+
+.radio-list { padding-left: 4px; }
+.radio-line { display: flex; align-items: flex-start; gap: 7px; padding: 4px 0; font-size: 12px; }
+.radio-line input { margin-top: 2px; accent-color: var(--accent); }
+
+.form-error { color: var(--danger); font-size: 11px; min-height: 14px; margin-top: 6px; }
+
+.back-link {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  padding: 0 0 8px;
+  font-size: 12px;
+}
+.back-link:hover { color: var(--accent); }
+
+.footer-tools {
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+/* The end-of-rotation action. Outlined rather than filled, so it reads as
+   important without competing with "Import / Add case", which is the button
+   pressed many times a day. */
+.btn-export {
+  width: 100%;
+  padding: 12px;
+  font-size: 13.5px;
+  font-weight: 600;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+}
+.btn-export:hover { background: var(--accent-soft); }
+
+/* Clear all stays deliberately small: destructive, and rarely wanted. */
+.footer-tools .btn-quiet { font-size: 11px; padding: 6px 9px; }
+
+/* ===========================================================================
+   Badge progress and the unlock moment
+   =========================================================================== */
+
+.badge .progress {
+  font-variant-numeric: tabular-nums;
+  font-size: 10px;
+  opacity: 0.75;
+}
+
+.unlock {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 14, 20, 0.62);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  z-index: 20;
+}
+.unlock-card {
+  background: var(--bg);
+  border: 1px solid var(--gold);
+  border-radius: 14px;
+  padding: 22px 18px 18px;
+  text-align: center;
+  max-width: 300px;
+  width: 100%;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+}
+.unlock-icon { font-size: 40px; line-height: 1; margin-bottom: 10px; }
+.unlock-kicker {
+  margin: 0 0 3px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 700;
+}
+.unlock-name { margin: 0 0 7px; font-size: 19px; font-weight: 650; }
+.unlock-hint { margin: 0 0 12px; font-size: 12px; color: var(--text-dim); line-height: 1.45; }
+.unlock-next {
+  margin: 0 0 16px;
+  font-size: 11px;
+  color: var(--text-dim);
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  line-height: 1.45;
+}
+.unlock-next:empty { display: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .unlock-card { animation: unlock-in 220ms cubic-bezier(0.2, 0.9, 0.3, 1.1); }
+  @keyframes unlock-in {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+}
+
+/* The student's own details: quiet, set once, then ignored.
+   "Graduating" is a standing label rather than a placeholder, because a
+   placeholder disappears the moment a term is chosen — and "Fall 2027" sitting
+   on its own reads just as easily as the term of the rotation. */
+.profile {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 0 0 12px;
+}
+.profile-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+/* Name and school share the first line: the name takes what is left, the
+   school takes only what its longest option needs. */
+.profile-row .student-name { flex: 1 1 auto; min-width: 0; width: auto; }
+.profile-row #p-school { flex: 0 0 84px; }
+.profile-label {
+  flex: 0 0 auto;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+.profile-row select {
+  flex: 1;
+  min-width: 0;
+  padding: 5px 4px;
+  font-size: 11px;
+  color: var(--text-dim);
+  border-color: var(--line);
+  background: transparent;
+}
+.profile-row select.set { color: var(--text); }
+
+/* A case that was just saved flashes once in the list, so the student can see
+   where it landed without hunting for it. The class is removed after two
+   seconds; the animation fades the highlight out before then. */
+.case-row.just-added {
+  background: var(--highlight);
+  /* The bar stays for the whole highlight, so the row is still findable after
+     the pulsing has stopped. */
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .case-row.just-added { animation: row-flash 2600ms ease-out forwards; }
+  /* Three pulses, not one fade. A single fade from a tinted background is easy
+     to miss entirely if you blink or look at the chart first. */
+  @keyframes row-flash {
+    0%   { background: var(--highlight); }
+    12%  { background: transparent; }
+    24%  { background: var(--highlight); }
+    36%  { background: transparent; }
+    48%  { background: var(--highlight); }
+    100% { background: transparent; }
+  }
+}

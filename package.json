@@ -1,0 +1,9 @@
+{
+  "name": "ophtho-case-log",
+  "private": true,
+  "type": "module",
+  "//": "This file exists for ONE reason: so `node` will run the test files in tests/. There is no build step, no dependencies, and Chrome ignores this file entirely.",
+  "scripts": {
+    "test": "node tests/text.test.mjs && node tests/extract.test.mjs && node tests/pdf.test.mjs && node tests/privacy.test.mjs"
+  }
+}

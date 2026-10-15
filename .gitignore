@@ -1,0 +1,14 @@
+# Build output — rebuilt by tools/package.sh, never committed.
+dist/
+
+# Generated and private PDFs.
+#
+# IMPORTANT: this line is why the repo is safe to make public. Reports exported
+# while testing were generated from LIVE patient records and contain real
+# patient names. They must never reach a commit — and because GitHub Pages
+# publishes this docs/ folder, a committed one would also be served on the web.
+# docs/sample-report.pdf is regenerable with `node tests/pdf.test.mjs`.
+docs/*.pdf
+
+# macOS
+.DS_Store
