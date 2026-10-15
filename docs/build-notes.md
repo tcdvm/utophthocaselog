@@ -89,7 +89,7 @@ replaced by placeholders like `«name»`.
 
 ### What it found
 
-- Host `utcvm.use1.ezyvet.com` — already covered by the permission we requested
+- Host `<hospital>.use1.ezyvet.com` — already covered by the permission we requested
 - The path is always `/`. ezyVet is a single-page app, so **the URL can never
   tell us which patient is open.** Detection has to come from the page itself
 - The open record's tab is `div#rtab7`; its patient sidebar is
@@ -98,7 +98,7 @@ replaced by placeholders like `«name»`.
 
 ### Two over-capture risks, found before writing the extractor
 
-1. **The record tab label reads `1204311 - "«name»" KUPRITZ (09-09-2026)`.** The
+1. **The record tab label reads `1204311 - "«name»" OWNERSURNAME (09-09-2026)`.** The
    trailing surname is the *owner*. It is the most convenient-looking place to
    read a patient name from, and using it would pull client identity into every
    student's laptop. We do not touch it.
