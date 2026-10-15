@@ -22,7 +22,7 @@ never reads client details, appointment schedules, medical record numbers or
 clinical notes.
 
 These are not promises in prose: `tests/privacy.test.mjs` enforces them on every
-test run. See [the privacy policy](https://ophtho-case-log.example/privacy.html).
+test run. See [the privacy policy](https://tcdvm.github.io/utophthocaselog/privacy.html).
 
 ## Installing from source
 
